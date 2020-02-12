@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import Jumbotron from "../components/Jumbotron";
+import { Col, Row, Container } from "../components/Grid";
 import { Input, FormBtn } from "../components/Form";
 
 class Search extends Component {
 	state = {
 		book: ""
 	};
-
-	componentDidMount() {
-		console.log(process.env.REACT_APP_API_KEY);
-	}
 
 	handleInputChange = event => {
 		const { name, value } = event.target;
@@ -46,17 +44,27 @@ class Search extends Component {
 
 	render() {
 		return (
-			<form>
-				<Input
-					value={this.state.book}
-					onChange={this.handleInputChange}
-					name="book"
-					placeholder="Search for books."
-				/>
-				<FormBtn disabled={!this.state.book} onClick={this.handleFormSubmit}>
-					Search
-				</FormBtn>
-			</form>
+			<Container fluid>
+				{/* <Row> */}
+				{/* <Col size="md-6"> */}
+				<Jumbotron>
+					<h1>(React) Google Books Search</h1>
+					<h4>Search For and Save Books of Interest</h4>
+				</Jumbotron>
+				<form>
+					<Input
+						value={this.state.book}
+						onChange={this.handleInputChange}
+						name="book"
+						placeholder="Search for books."
+					/>
+					<FormBtn disabled={!this.state.book} onClick={this.handleFormSubmit}>
+						Search
+					</FormBtn>
+				</form>
+				{/* </Col> */}
+				{/* </Row> */}
+			</Container>
 		);
 	}
 }
