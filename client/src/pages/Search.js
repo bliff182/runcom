@@ -29,30 +29,19 @@ class Search extends Component {
 		const apiKey = process.env.REACT_APP_API_KEY;
 		Axios.get(
 			`https://www.googleapis.com/books/v1/volumes?q=${query}&key=${apiKey}`
-		)
-			.then(res => {
-				console.log(res.data);
-			})
-			.catch(error => {
-				if (error.response) {
-					// The request was made and the server responded with a status code
-					// that falls out of the range of 2xx
-					console.log("---------------Data---------------");
-					console.log(error.response.data);
-					console.log("---------------Status---------------");
-					console.log(error.response.status);
-					console.log("---------------Status---------------");
-					console.log(error.response.headers);
-				} else if (error.request) {
-					// The request was made but no response was received
-					// `error.request` is an object that comes back with details pertaining to the error that occurred.
-					console.log(error.request);
-				} else {
-					// Something happened in setting up the request that triggered an Error
-					console.log("Error", error.message);
-				}
-				console.log(error.config);
-			});
+		).then(res => {
+			console.log(res.data);
+			let bookInfo = res.data.items;
+			const len = bookInfo.length;
+			for (let i = 0; i < len; i++) {
+				const { title, authors, description, imageLinks, infoLink } = bookInfo[
+					i
+				].volumeInfo;
+				console.log(
+					`Title: ${title}\nAuthor(s): ${authors}\nDescription: ${description}\nImage: ${imageLinks.thumbnail}\nLink: ${infoLink}`
+				);
+			}
+		});
 	};
 
 	render() {
