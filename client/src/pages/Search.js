@@ -6,7 +6,8 @@ import { Input, FormBtn } from "../components/Form";
 
 class Search extends Component {
 	state = {
-		book: ""
+		book: "",
+		results: []
 	};
 
 	handleInputChange = event => {
@@ -18,6 +19,7 @@ class Search extends Component {
 
 	handleFormSubmit = event => {
 		event.preventDefault();
+		this.setState({ results: [] });
 		if (this.state.book) {
 			this.searchBooks(this.state.book);
 		}
@@ -28,29 +30,40 @@ class Search extends Component {
 		Axios.get(
 			`https://www.googleapis.com/books/v1/volumes?q=${query}&key=${apiKey}`
 		).then(res => {
-			console.log(res.data);
-			let bookInfo = res.data.items;
+			// console.log(res.data);
+			const bookInfo = res.data.items;
 			const len = bookInfo.length;
+			let resultArray = [];
 			for (let i = 0; i < len; i++) {
 				const { title, authors, description, imageLinks, infoLink } = bookInfo[
 					i
 				].volumeInfo;
-				console.log(
-					`Title: ${title}\nAuthor(s): ${authors}\nDescription: ${description}\nImage: ${imageLinks.thumbnail}\nLink: ${infoLink}`
-				);
+				let resultObject = {
+					title: title,
+					authors: authors,
+					description: description,
+					image: imageLinks.thumbnail,
+					link: infoLink
+				};
+				// console.log(resultObject);
+				resultArray.push(resultObject);
 			}
+			this.setState({ results: resultArray });
+			console.log(this.state.results);
 		});
+		// .catch(err => console.log(err));
 	};
 
 	render() {
 		return (
-			<Container fluid>
+			<Container>
 				{/* <Row> */}
 				{/* <Col size="md-6"> */}
 				<Jumbotron>
 					<h1>(React) Google Books Search</h1>
 					<h4>Search For and Save Books of Interest</h4>
 				</Jumbotron>
+				{/* <Row> */}
 				<form>
 					<Input
 						value={this.state.book}
