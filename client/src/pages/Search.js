@@ -3,7 +3,7 @@ import Axios from "axios";
 import Jumbotron from "../components/Jumbotron";
 import { Col, Row, Container } from "../components/Grid";
 import { Input, FormBtn } from "../components/Form";
-
+import { List, ListItem } from "../components/List";
 class Search extends Component {
 	state = {
 		book: "",
@@ -77,6 +77,21 @@ class Search extends Component {
 				</form>
 				{/* </Col> */}
 				{/* </Row> */}
+				{this.state.results.length ? (
+					<List>
+						{this.state.results.map(result => (
+							<ListItem>
+								<h3>{result.title}</h3>
+								<h5>Written by: {result.authors}</h5>
+								<p>{result.description}</p>
+								<img src={result.image}></img>
+								<p>More info here: {result.link}</p>
+							</ListItem>
+						))}
+					</List>
+				) : (
+					<h3>No Results</h3>
+				)}
 			</Container>
 		);
 	}
