@@ -39,6 +39,7 @@ class Search extends Component {
 					i
 				].volumeInfo;
 				let resultObject = {
+					id: i + 1,
 					title: title,
 					authors: authors,
 					description: description,
@@ -80,7 +81,7 @@ class Search extends Component {
 				{this.state.results.length ? (
 					<List>
 						{this.state.results.map(result => (
-							<ListItem>
+							<ListItem key={result.id}>
 								<h3>{result.title}</h3>
 								<h5>Written by: {result.authors}</h5>
 								<p>{result.description}</p>
